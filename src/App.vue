@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header />
+    <br>
+    <div class="uk-container">
+      <router-view></router-view>
+    </div>
+    <Footer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+import Header from './components/Header';
+import Footer from './components/Footer';
+UIkit.use(Icons);
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Header,
+    Footer
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  @import "~uikit/dist/css/uikit.min.css";
 </style>
