@@ -1,22 +1,19 @@
 <template>
   <div>
-    <div class="uk-position-bottom-center uk-position-small uk-visible@m uk-position-z-index">
-      <span class="uk-text-small uk-text-muted">© 2019 Company Name - <a href="https://github.com/zzseba78/Kick-Off">Created by KickOff</a> | Built with <a href="http://getuikit.com" title="Visit UIkit 3 site" target="_blank" data-uk-tooltip><span data-uk-icon="uikit"></span></a></span>
-    </div>
     <div class="uk-width-medium uk-padding-small">
       <!-- login -->
-      <form class="toggle-class" action="login-dark.html">
+      <form class="toggle-class" @submit.prevent="loginUser">
         <fieldset class="uk-fieldset">
           <div class="uk-margin-small">
             <div class="uk-inline uk-width-1-1">
               <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: user"></span>
-              <input class="uk-input uk-border-pill" required placeholder="Username" type="text">
+              <input class="uk-input uk-border-pill" required placeholder="Username" v-model="username" type="text">
             </div>
           </div>
           <div class="uk-margin-small">
             <div class="uk-inline uk-width-1-1">
               <span class="uk-form-icon uk-form-icon-flip" data-uk-icon="icon: lock"></span>
-              <input class="uk-input uk-border-pill" required placeholder="Password" type="password">
+              <input class="uk-input uk-border-pill" required placeholder="Password" v-model="password" type="password">
             </div>
           </div>
           <div class="uk-margin-small">
@@ -56,8 +53,33 @@
 </template>
 
 <script>
+  import Axios from 'axios'
 export default {
-  name: "login"
+  name: "login",
+  data() {
+    return {
+      username: null,
+      password: null,
+      token: ""
+    }
+  },
+  methods: {
+    loginUser() {
+      Axios.post('https://127.0.0.1:8000/api/login_check', {
+        "Content-Type:": "application/json",
+        username: this.username,
+        password: this.password,
+      })
+      .then(response => {
+        this.token = response.data.token
+        localStorage.setItem("token", this.token)
+        this.$router.push('/')
+      })
+      .catch(error => {
+        window.console.log(error)
+      })
+    }
+  }
 }
 </script>
 

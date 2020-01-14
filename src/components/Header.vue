@@ -13,16 +13,16 @@
                             <li>
                                 <router-link to="/articles">Articles</router-link>
                             </li>
-                            <li>
+                            <li v-if="token">
                                 <router-link to="/login">Connexion</router-link>
                             </li>
                             <li>
                                 <router-link to="/register">Inscription</router-link>
                             </li>
+                            <li>
+                                <router-link to="/" @click.native="logout">déconnexion</router-link>
+                            </li>
                         </ul>
-                    </div>
-                    <div class="uk-navbar-center nav-overlay">
-                        <a class="uk-navbar-item uk-logo" href="#" title="Logo"><img src="../assets/logo.png" alt="Logo"></a>
                     </div>
                     <div class="uk-navbar-right nav-overlay">
                         <a class="uk-navbar-toggle uk-visible@m" data-uk-search-icon data-uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
@@ -62,6 +62,20 @@
 
     export default {
         name: 'header',
+        data() {
+            return {
+                token: null
+            }
+
+        },
+        methods: {
+          logout() {
+              localStorage.clear()
+          }
+        },
+        mounted() {
+            this.token = localStorage.getItem('token')
+        }
     }
 </script>
 

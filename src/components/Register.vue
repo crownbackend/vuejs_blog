@@ -109,7 +109,10 @@ export default {
           "email": this.email,
           "password": this.password,
           "Content-Type": "application/x-www-form-urlencoded"
-        }).then(response => (this.errorEmail = response.data.email[0]))
+        }).then(response => {
+            this.errorEmail = response.data.email[0]
+            this.errorUsername = response.data.username[0]
+        })
       }
     }
   }
