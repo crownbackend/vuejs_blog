@@ -37,16 +37,13 @@ export default {
   name: "article",
   data() {
     return {
-      articles: null,
-      token: null
+      articles: null
     }
   },
   mounted() {
     axios
     .get('https://127.0.0.1:8000/api/articles')
     .then(response => (this.articles = response.data))
-    this.token = localStorage.getItem('token')
-    window.console.log(this.token);
   },
   methods: {
     format_date(value) {

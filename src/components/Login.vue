@@ -60,8 +60,9 @@ export default {
     return {
       username: null,
       password: null,
-      token: ""
     }
+  },
+  created() {
   },
   methods: {
     loginUser() {
@@ -71,9 +72,8 @@ export default {
         password: this.password,
       })
       .then(response => {
-        this.token = response.data.token
-        localStorage.setItem("token", this.token)
-        this.$router.push('/')
+        this.$token.setItem('token', response.data.token);
+        this.$router.push('/');
       })
       .catch(error => {
         window.console.log(error)

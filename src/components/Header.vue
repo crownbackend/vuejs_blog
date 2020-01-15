@@ -13,14 +13,20 @@
                             <li>
                                 <router-link to="/articles">Articles</router-link>
                             </li>
-                            <li v-if="token">
+                            <li v-if="!login">
                                 <router-link to="/login">Connexion</router-link>
                             </li>
-                            <li>
+                            <li v-if="!login">
                                 <router-link to="/register">Inscription</router-link>
                             </li>
-                            <li>
-                                <router-link to="/" @click.native="logout">déconnexion</router-link>
+                            <li v-if="login">
+                                <router-link to="/admin">Back-office</router-link>
+                            </li>
+                            <li v-if="login" @click="logout">
+                                <a href="#">
+                                    déconnexion
+                                </a>
+
                             </li>
                         </ul>
                     </div>
@@ -64,17 +70,24 @@
         name: 'header',
         data() {
             return {
-                token: null
+                login: null
             }
-
         },
         methods: {
           logout() {
-              localStorage.clear()
-          }
+              if(this.login === true) {
+                  this.login = false;
+                  localStorage.removeItem('token');
+                  this.$router.push('/');
+              }
+
+          },
+
         },
         mounted() {
-            this.token = localStorage.getItem('token')
+            if(this.$token.getItem('token')) {
+                this.login = true
+            }
         }
     }
 </script>
