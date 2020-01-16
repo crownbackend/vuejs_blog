@@ -5,6 +5,7 @@ import router from './Route'
 
 Vue.config.productionTip = false;
 Vue.prototype.$token = localStorage;
+Vue.prototype.$user = {};
 Vue.use(VueRouter);
 
 new Vue({
