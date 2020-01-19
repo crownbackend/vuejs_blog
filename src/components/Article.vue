@@ -34,7 +34,7 @@
 <script>
 import axios from 'axios';
 export default {
-  name: "article",
+  name: "ArticleBlog",
   data() {
     return {
       articles: null
@@ -43,7 +43,9 @@ export default {
   mounted() {
     axios
     .get('https://127.0.0.1:8000/api/articles')
-    .then(response => (this.articles = response.data))
+    .then(response => {
+      this.articles = response.data
+    })
   },
   methods: {
     format_date(value) {

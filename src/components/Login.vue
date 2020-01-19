@@ -53,31 +53,21 @@
 </template>
 
 <script>
-  import Axios from 'axios'
+  import AuthToken from "../services/AuthToken";
 export default {
   name: "login",
   data() {
     return {
       username: null,
       password: null,
+      error: null
     }
   },
   created() {
   },
   methods: {
     loginUser() {
-      Axios.post('https://127.0.0.1:8000/api/login_check', {
-        "Content-Type:": "application/json",
-        username: this.username,
-        password: this.password,
-      })
-      .then(response => {
-        this.$token.setItem('token', response.data.token);
-        this.$router.push('/');
-      })
-      .catch(error => {
-        window.console.log(error)
-      })
+      AuthToken.loginUser(this.username, this.password)
     }
   }
 }

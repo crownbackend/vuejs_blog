@@ -22,7 +22,9 @@
                     <p>
                         {{ article.description}}
                     </p>
-                    <a href="#" title="Read More" class="uk-button uk-button-default uk-button-small">Lire l'article</a>
+                    <router-link class="uk-button uk-button-default uk-button-small" :to="{name: 'adminShowArticle', params: {id: article.id}}">
+                        Lire l'article
+                    </router-link>
                     <router-link class="uk-button uk-button-primary uk-button-small" :to="{name: 'adminEditArticle', params: {id: article.id}}">
                         Editer un article
                     </router-link>
@@ -35,23 +37,21 @@
 </template>
 
 <script>
-    import axios from "axios";
+
+    import AuthToken from "../../services/AuthToken";
+    import ApiArticle from "../../services/ApiArticle";
 
     export default {
         name: "ArticleAdmin",
         data() {
             return {
                 articles: null,
-                error: null
+                error: null,
             }
         },
         mounted() {
-            axios
-                .get('https://127.0.0.1:8000/api/admin/articles', {
-                    headers: {
-                        "Authorization": this.$token.getItem('token')
-                    }
-                })
+            AuthToken.checkLogin();
+            ApiArticle.getArticles()
                 .then(response => {
                     if(response.data && response.status === 200) {
                         this.articles = response.data
@@ -62,7 +62,7 @@
                 .catch(
                     error => {
                         if(error.response.status === 500) {
-                            localStorage.removeItem('token');
+                            localStorage.removeItem('auth-token');
                             this.$router.push('/');
                         } else if (error.response.status === 403) {
                             this.$router.push('/')

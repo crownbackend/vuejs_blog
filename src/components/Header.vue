@@ -67,7 +67,7 @@
 <script>
 
     export default {
-        name: 'header',
+        name: 'headerBlog',
         data() {
             return {
                 login: null
@@ -75,17 +75,13 @@
         },
         methods: {
           logout() {
-              if(this.login === true) {
-                  this.login = false;
-                  localStorage.removeItem('token');
-                  this.$router.push('/');
-              }
-          },
-
+              this.$token.clear();
+              this.$router.push('/');
+          }
         },
         mounted() {
-            if(this.$token.getItem('token')) {
-                this.login = true
+            if(this.$token.getItem('auth-token')) {
+                this.login = true;
             }
         }
     }

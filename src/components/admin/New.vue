@@ -28,7 +28,6 @@
                     <label>Publier l'article</label>
                     <label><input class="uk-radio" type="radio" name="radio2" :value="1" v-model="published"> Oui</label>
                     <label><input class="uk-radio" type="radio" name="radio2" :value="0" v-model="published"> Non</label>
-                    {{published}}
                 </div>
 
                 <div class="uk-margin" uk-margin>
@@ -50,7 +49,10 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
+    import AuthToken from "../../services/AuthToken";
+    import ApiCategory from "../../services/ApiCategory";
+    import ApiArticle from "../../services/ApiArticle";
     export default {
         name: "NewArticle",
         data() {
@@ -72,45 +74,34 @@
             },
 
             sendForm() {
-                const formData = new FormData();
-                formData.append('image', this.image);
-                formData.append('category', this.category)
-                formData.append('authorization', this.$token.getItem('token'))
-                formData.append('description', this.content)
-                formData.append('published', this.published)
-                formData.append('title', this.title)
-                formData.append('Content-Type', 'multipart/form-data')
-                axios.post('https://127.0.0.1:8000/api/admin/articles', formData).
+                ApiArticle.addArticle(this.image, this.category, this.content, this.published, this.title).
                 then(response => {
-                    window.console.log(response)
+                    if(response.status === 201) {
+                        this.$router.push('/admin')
+                    }
+                })
+                .catch(error => {
+                    window.console.log(error)
                 })
             }
         }
         ,
         mounted() {
-            axios({
-                url: 'https://127.0.0.1:8000/api/admin/categories',
-                method: 'POST',
-                data: {
-                    authorization: this.$token.getItem('token')
+            AuthToken.checkLogin()
+            ApiCategory.getCategories()
+            .then(response => {
+                this.categories = response.data
+            })
+            .catch(error => {
+                if(error.status === 500) {
+                    localStorage.removeItem('auth-token');
+                    this.$router.push('/');
+                } else if (error.status === 403) {
+                    this.$router.push('/')
+                } else {
+                    this.$router.push('/')
                 }
             })
-                .then(response => {
-                    if(response.data && response.status === 200) {
-                        this.categories = response.data
-                    } else {
-                        this.error = 'Problème serveur';
-                    }
-                })
-                .catch(error => {
-                        if(error.response.status === 500) {
-                            localStorage.removeItem('token');
-                            this.$router.push('/');
-                        } else if (error.response.status === 403) {
-                            this.$router.push('/')
-                        }
-                    }
-                )
         }
     }
 </script>
