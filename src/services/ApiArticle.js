@@ -3,7 +3,8 @@ import Vue from "vue";
 
 class ApiArticle {
 
-    getArticles() {
+    getArticles()
+    {
         return axios
             .get(Vue.prototype.$hostName+'/admin/articles', {
                 headers: {
@@ -12,7 +13,8 @@ class ApiArticle {
             })
     }
 
-    showArticle(id) {
+    showArticle(id)
+    {
         this.id = id
         return axios.get(Vue.prototype.$hostName+'/admin/article/'+id,{
             headers: {
@@ -21,7 +23,8 @@ class ApiArticle {
         })
     }
 
-    addArticle(image, category, content, published, title) {
+    addArticle(image, category, content, published, title)
+    {
         this.image = image
         this.category = category
         this.content = content
@@ -36,7 +39,26 @@ class ApiArticle {
         formData.append('title', this.title)
         formData.append('Content-Type', 'multipart/form-data')
 
-        return axios.post('https://127.0.0.1:8000/api/admin/articles', formData)
+        return axios.post(Vue.prototype.$hostName+'/admin/articles', formData)
+    }
+
+    editArticle(image, category, description, published, title, id) {
+        this.image = image
+        this.category = category
+        this.description = description
+        this.published = published
+        this.title = title
+        this.id = id
+        const formData = new FormData();
+        formData.append('image', this.image);
+        formData.append('category', this.category)
+        formData.append('authorization', Vue.prototype.$token.getItem('auth-token'))
+        formData.append('description', this.description)
+        formData.append('published', this.published)
+        formData.append('title', this.title)
+        formData.append('Content-Type', 'multipart/form-data')
+
+        return axios.put(Vue.prototype.$hostName+'/admin/article/'+id, formData)
     }
 
 

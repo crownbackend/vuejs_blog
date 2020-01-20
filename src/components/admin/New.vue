@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="uk-margin">
-                    <textarea class="uk-textarea" rows="5" placeholder="Contenu de l'article" v-model="content"></textarea>
+                    <textarea class="uk-textarea" rows="5" placeholder="Contenu de l'article" v-model="description"></textarea>
                 </div>
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
                     <label>Publier l'article</label>
@@ -59,7 +59,7 @@
             return {
                 categories: null,
                 title: null,
-                content: null,
+                description: null,
                 published: null,
                 image: null,
                 category: null
@@ -74,7 +74,7 @@
             },
 
             sendForm() {
-                ApiArticle.addArticle(this.image, this.category, this.content, this.published, this.title).
+                ApiArticle.addArticle(this.image, this.category, this.description, this.published, this.title).
                 then(response => {
                     if(response.status === 201) {
                         this.$router.push('/admin')
@@ -84,8 +84,7 @@
                     window.console.log(error)
                 })
             }
-        }
-        ,
+        },
         mounted() {
             AuthToken.checkLogin()
             ApiCategory.getCategories()
