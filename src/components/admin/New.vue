@@ -65,6 +65,9 @@
                 category: null
             }
         },
+        created() {
+            document.title= "Ajouter un article"
+        },
         methods: {
             onFileChange(e) {
                 let files = e.target.files || e.dataTransfer.files;

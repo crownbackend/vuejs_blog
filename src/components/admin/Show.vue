@@ -37,6 +37,7 @@
             .then(response => {
                 this.isLoading = true;
                 this.article = response.data
+                document.title = response.data.title
             })
         },
         methods: {

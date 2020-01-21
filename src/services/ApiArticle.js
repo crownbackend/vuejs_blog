@@ -31,9 +31,9 @@ class ApiArticle {
         this.published = published
         this.title = title
         const formData = new FormData();
+        formData.append('authorization', Vue.prototype.$token.getItem('auth-token'))
         formData.append('image', this.image);
         formData.append('category', this.category)
-        formData.append('authorization', Vue.prototype.$token.getItem('auth-token'))
         formData.append('description', this.content)
         formData.append('published', this.published)
         formData.append('title', this.title)
@@ -50,14 +50,13 @@ class ApiArticle {
         this.title = title
         this.id = id
         const formData = new FormData();
+        formData.append('authorization', Vue.prototype.$token.getItem('auth-token'))
         formData.append('image', this.image);
         formData.append('category', this.category)
-        formData.append('authorization', Vue.prototype.$token.getItem('auth-token'))
         formData.append('description', this.description)
         formData.append('published', this.published)
         formData.append('title', this.title)
         formData.append('Content-Type', 'multipart/form-data')
-
         return axios.put(Vue.prototype.$hostName+'/admin/article/'+id, formData)
     }
 

@@ -49,6 +49,9 @@
                 error: null,
             }
         },
+        created() {
+            document.title = "Liste des articles"
+        },
         mounted() {
             AuthToken.checkLogin();
             ApiArticle.getArticles()

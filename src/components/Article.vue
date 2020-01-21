@@ -40,6 +40,13 @@ export default {
       articles: null
     }
   },
+  created() {
+    if(this.$router.currentRoute.name === "home") {
+      document.title = "Accueil"
+    } else if(this.$router.currentRoute.name === "articles") {
+      document.title = "Liste des articles"
+    }
+  },
   mounted() {
     axios
     .get('https://127.0.0.1:8000/api/articles')

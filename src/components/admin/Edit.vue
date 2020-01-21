@@ -18,12 +18,12 @@
 
                 <div class="uk-margin" v-if="isLoading">
                     <label for="title">Titre</label>
-                    <input class="uk-input" id="title" type="text" placeholder="Titre de l'article" v-model="article.title">
+                    <input class="uk-input" id="title" type="text" placeholder="Titre de l'article" v-on:keyup="changeTitle(article.title)" v-model="article.title">
                 </div>
 
                 <div class="uk-margin" v-if="isLoading">
                     <label for="description">description</label>
-                    <textarea class="uk-textarea" id="description" rows="5" placeholder="Contenu de l'article" v-model="article.description">
+                    <textarea class="uk-textarea" id="description" rows="5" placeholder="Contenu de l'article" v-on:keyup="changeDescription(article.description)" v-model="article.description">
                     </textarea>
                 </div>
                 <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid" v-if="isLoading">
@@ -90,14 +90,21 @@
                 ApiArticle.editArticle(this.image, this.category, this.description,
                     this.published, this.title, this.$route.params.id).
                 then(response => {
-                    window.console.log(response)
-                    if(response.status === 201) {
-                        this.$router.push('/admin')
+                    if(response.status === 200) {
+                        // this.$router.push('/admin')
                     }
                 })
                     .catch(error => {
                         window.console.log(error)
                     })
+            },
+            changeTitle(article)
+            {
+                this.title = article
+            },
+            changeDescription(description)
+            {
+                this.description = description
             }
         },
         mounted() {
@@ -127,7 +134,7 @@
                     }
                     this.category = response.data.category.id;
                 })
-        }
+        },
     }
 </script>
 

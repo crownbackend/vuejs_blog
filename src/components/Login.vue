@@ -64,6 +64,7 @@ export default {
     }
   },
   created() {
+    document.title = "Connexion"
   },
   methods: {
     loginUser() {

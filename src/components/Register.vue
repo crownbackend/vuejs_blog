@@ -88,6 +88,9 @@ export default {
 
     }
   },
+  created() {
+    document.title = "Inscription"
+  },
   methods: {
     checkForm: function () {
       if(!this.username) {
