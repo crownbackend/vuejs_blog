@@ -13,7 +13,7 @@
                 <article class="uk-section uk-section-small uk-padding-remove-top">
                     <div>
                         <h2 class="uk-margin-remove-adjacent uk-text-bold uk-margin-small-bottom"><a title="Fusce facilisis tempus magna ac dignissim." class="uk-link-reset" href="#">{{ article.title }}</a></h2>
-                        <p class="uk-article-meta">Article publié le : {{format_date(article.created_at)}}</p>
+                        <p class="uk-article-meta">Article publié le : {{format_date(article.createdAt)}}</p>
                     </div>
                     <figure>
                         <img  v-bind:src="article.image_name" v-bind:data-src="article.image_name" width="800" height="300" v-bind:alt="article.image_name" class="lazy" data-uk-img="">
@@ -28,6 +28,7 @@
                     <router-link class="uk-button uk-button-primary uk-button-small" :to="{name: 'adminEditArticle', params: {id: article.id}}">
                         Editer un article
                     </router-link>
+                    <button class="uk-button uk-button-danger uk-button-small" @click="deleteArticle(article.id)">Danger</button>
                     <hr>
                 </article>
 
@@ -71,7 +72,7 @@
                             this.$router.push('/')
                         }
                     }
-                )
+                );
 
         },
         methods: {
@@ -86,6 +87,34 @@
 
                     return month + '/' + day + '/' + year +' à '+ hour +':'+ (minute<10?'0':'') + minute;
                 }
+            },
+            deleteArticle(id) {
+                ApiArticle.deleteArticle(id)
+                    .then(response => {
+                        if(response.status === 204) {
+                            ApiArticle.getArticles()
+                                .then(response => {
+                                    if(response.data && response.status === 200) {
+                                        this.articles = response.data
+                                    } else {
+                                        this.error = 'Problème serveur';
+                                    }
+                                })
+                                .catch(
+                                    error => {
+                                        if(error.response.status === 500) {
+                                            localStorage.removeItem('auth-token');
+                                            this.$router.push('/');
+                                        } else if (error.response.status === 403) {
+                                            this.$router.push('/')
+                                        }
+                                    }
+                                );
+                        }
+                    })
+                    .catch(error => {
+                        alert(error.response.data);
+                    });
             }
         }
     }

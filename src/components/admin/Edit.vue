@@ -88,14 +88,13 @@
 
             sendForm() {
                 ApiArticle.editArticle(this.image, this.category, this.description,
-                    this.published, this.title, this.$route.params.id).
-                then(response => {
-                    window.console.log(response)
+                    this.published, this.title, this.$route.params.id)
+                .then(response => {
                     if(response.status === 200) {
-                        // this.$router.push('/admin')
+                        this.$router.push('/admin')
                     }
                 })
-                    .catch(error => {
+                .catch(error => {
                         window.console.log(error);
                     });
             },

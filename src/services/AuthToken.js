@@ -24,14 +24,24 @@ class AuthToken {
     }
 
     checkLogin() {
-        if(!Vue.prototype.$token.getItem('auth-token')) {
-            router.push({path: "/login"})
-        }
-    }
-
-    checkTokenValid()
-    {
-
+        const authToken = new FormData();
+        authToken.append('authorization', Vue.prototype.$token.getItem('auth-token'));
+        axios.post(Vue.prototype.$hostName+"/check/login/verifiy/token", {}, {
+            headers: {
+                authorization: Vue.prototype.$token.getItem('auth-token'),
+            }
+        }).then(response => {
+            if(response.status === 200) {
+                if(!Vue.prototype.$token.getItem('auth-token')) {
+                    router.push({path: "/login"});
+                }
+            }
+        }).catch(error => {
+            if(error.status === 400) {
+                Vue.prototype.$token.clear();
+                router.push({path: "/login"});
+            }
+        });
     }
 
 }

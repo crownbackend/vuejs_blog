@@ -79,6 +79,7 @@
             sendForm() {
                 ApiArticle.addArticle(this.image, this.category, this.description, this.published, this.title).
                 then(response => {
+                    window.console.log(response)
                     if(response.status === 201) {
                         this.$router.push('/admin')
                     }

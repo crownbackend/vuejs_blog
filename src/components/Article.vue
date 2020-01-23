@@ -6,7 +6,7 @@
         <article class="uk-section uk-section-small uk-padding-remove-top">
           <div>
             <h2 class="uk-margin-remove-adjacent uk-text-bold uk-margin-small-bottom"><a title="Fusce facilisis tempus magna ac dignissim." class="uk-link-reset" href="#">{{ article.title }}</a></h2>
-            <p class="uk-article-meta">Article publié le : {{format_date(article.created_at.date)}}</p>
+            <p class="uk-article-meta">Article publié le : {{format_date(article.createdAt)}}</p>
           </div>
           <figure>
             <img  v-bind:src="article.image_name" v-bind:data-src="article.image_name" width="800" height="300" v-bind:alt="article.image_name" class="lazy" data-uk-img="">
